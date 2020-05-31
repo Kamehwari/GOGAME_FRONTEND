@@ -1,0 +1,116 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="col-11 ">
+        <label >Hello, {{username}}</label>
+    </div>
+    <div class="col-1  float-right">
+            <button type="button" class="btn  btn-outline-primary btn-link" (click) = "logout()">Logout</button>
+    </div>
+</nav>
+<div class="col-10 mt-4 mx-auto">
+    <div class="float-right mt-4" >
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add Entry
+        </button>
+    </div>
+    
+    <table class="table table-striped" >
+        <thead>
+            <tr>
+                <th class="text-center table-header" scope="col">Num</th>
+                <th class="table-header" scope="col">Name</th>
+                <th class="table-header" scope="col">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let game of gamesList; let i = index">
+                <th class="text-center table-rows" scope="row">{{ i + 1 }}</th>
+                <td class="table-rows">{{game.name}}</td>
+                <td class="table-rows">{{game.score}}</td>
+                <td>
+                    <div class="btn-group dropright">
+                        <a
+                        class="btn btn-default more-icon"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        >
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li >
+                            <span class="pl-2 cursor-pointer" (click)="updateSelectedGame(game)" data-toggle="modal" data-target="#exampleModal">
+                                <i class="pl-2 fa fa-pencil-square-o edit-icon" aria-hidden="true"></i>
+                                <span class="pl-3 cursor-pointer">
+                                    Edit
+                                </span>
+                            </span>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li>
+                            <span class="pl-2 cursor-pointer" (click)="deleteGame(game._id)"
+                            ><i class="pr-2 fa fa-trash delete-icon" aria-hidden="true"></i>
+                            <span class="pl-3 cursor-pointer">
+                                Delete
+                            </span>
+                            </span>
+                        </li>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+       
+    </table>
+    <div  *ngIf="!gamesList || (gamesList && gamesList.length== 0)">
+        <span class="align-middle" style="margin-left:50%; color:teal; font-weight : 200; font-size : 20px;">No Entry Present</span>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div
+  class="modal fade bd-example-modal-lg"
+  id="exampleModal"
+  tabindex="-1"
+  style="margin-top: 60px;"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg modal-position" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modal-title" id="exampleModalLabel">Add Entry</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mb-5">
+                <div style="padding-right:15px;" class="container-fluid">
+                    <!-- main form -->
+                    <div class="row">
+                        <form action="" style="width:100%;" [formGroup]="gamesForm">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-lable">Name:</label>
+                                    <input type="text" required formControlName = "name" class="form-control name" id="name" placeholder="Enter Game name" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-lable">Score:</label>
+                                    <input type="number" required formControlName = "score" class="form-control score" id="score" placeholder="Enter Game score" name="score">
+                                </div>
+                                <button
+                                [disabled]="!gamesForm.valid"
+                                [ngClass]="[!gamesForm.valid ? 'not-allowed' : 'cursor-pointer']" type="submit" data-dismiss="modal" class="btn  btn-md btn-primary btn-customized" (click)="game_id?updateGame(game_id) :saveGame()">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
